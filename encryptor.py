@@ -7,38 +7,43 @@ def valid(key):
         else:
             return True
 
+def flatten(data):
+    return [item for branch in data for item in branch]
+
 def remove_duplicates(data):
     if data == []:
         return data
     elif data[0] in data[1:]:
         return remove_duplicates(data[1:])
     else:
-        return [data[0]].extend(remove_duplicates(data[1:]))
+        return flatten([data[0], remove_duplicates(data[1:])])
 
 def create_ciphertext(key):
     jash = original_alphabet[:]
     for i in key:
-        jash.extend(i)
-    jash = remove_duplicates(jash)
-    return jash
+        jash.append(i)
+    y = remove_duplicates(jash)
+    return y
 
 def encryptor(phrase, key):
     result = []
     cipher = create_ciphertext(key)
     for each in phrase:
         for i in range(0, len(original_alphabet)):
-            if original_item[i] == each:
-                result += cipher[i]
+            if original_alphabet[i] == each:
+                result.append(cipher[i])
     return " ".join(str(x) for x in result)
 
 def decryptor(phrase, key):
     result = []
     cipher = original_alphabet[:]
+    decrypt_text = create_ciphertext(key)
     for each in phrase:
-        for i in range(0, len(create_ciphertext(key))):
-            if create_ciphertext(key)[i] == item:
-                result += cipher[i]
+        for i in range(0, len(decrypt_text)):
+            if decrypt_text[i] == each:
+                result.append(decrypt_text[i])
     return " ".join(str(x) for x in result)
 
-while True:
-    
+
+print(encryptor('more chune for ya head top so watch how you speak on my name you know', 'goat'))
+print(decryptor('more chune for ya head top so watch how you speak on my name you know', 'goat'))
